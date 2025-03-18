@@ -1,0 +1,439 @@
+name: 'Draft release: build binaries and run tests'
+
+on:
+  # On new tags, build binaries and srpm, run a full brew test, and create a draft release automatically.
+  create:
+  # We often mess up the automatic build. Allow to correct manually (optionally with different build numbers)
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag for which to build'
+        required: true
+
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.name.outputs.tag }}
+      release_id: ${{ steps.release.outputs.release_id }}
+
+    steps:
+    - name: Make tag name
+      id: name
+      run: |
+        ref=${{ github.ref }}
+        [ "${ref::10}" = 'refs/tags/' ] && tag=${ref:10} || tag=${{ github.event.inputs.tag }}
+        echo tag=${tag#v} | tee -a $GITHUB_OUTPUT
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        path: pympress
+        ref: ${{ github.event.inputs.tag || github.ref }}
+
+    - name: Check tag matches python package version
+      continue-on-error: true
+      run: >
+        env PYTHONPATH=pympress python3 -c "import importlib;
+        assert importlib.import_module('pympress.__init__').__version__ == '${{ steps.name.outputs.tag }}'"
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -qy gettext
+
+    - name: Check latest translations are included
+      run: |
+        ./pympress/scripts/poedit.sh download
+        git -C pympress status --porcelain $i18n_files | tee status
+
+        if [ -s status ]; then
+          echo "Unversioned translation updates:"
+          git diff -- $i18n_files
+          exit 1
+        fi
+      env:
+        poeditor_api_token: ${{ secrets.POEDITOR_API_TOKEN }}
+        i18n_files: README.md pympress/share/locale/pympress.pot pympress/share/locale/*/LC_MESSAGES/pympress.po
+
+    - name: Create a tarball of the release since we can not rely on getting it from the github release
+      env:
+        basename: pympress-${{ steps.name.outputs.tag }}
+      run: tar czf $basename.tar.gz --exclude-vcs --exclude=.github --transform="s/^pympress/$basename/" pympress/
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: tarball
+        path: pympress-${{ steps.name.outputs.tag }}.tar.gz
+
+    - name: Create draft GitHub Release
+      id: release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        tag_name: v${{ steps.name.outputs.tag }}
+        files: pympress-${{ steps.name.outputs.tag }}.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
+
+  macos:
+    name: Install and run test on mac
+    needs: checks
+    runs-on: macos-latest
+    steps:
+    - name: Update brew
+      continue-on-error: true
+      run: |
+        brew update
+        brew upgrade
+
+    - name: Configure brew repo
+      continue-on-error: true
+      run: |
+        cd "`brew --repo homebrew/core`"
+        # Credentials and remotes
+        git remote add gh "https://github.com/Cimbali/homebrew-core/"
+        git fetch gh
+        # Attempt a rebase of changes in our repo copy
+        git checkout --detach
+        git rebase origin/master gh/master && git branch -f master HEAD || git rebase --abort
+        # Now use master and update remote so we can use the bump-formula-pr
+        git checkout master
+        git log -1 --decorate
+
+    - name: Run the audit
+      continue-on-error: true
+      run: |
+        brew audit --strict pympress
+
+    - name: Install dependencies
+      run: |
+        brew install pympress --only-dependencies
+
+    - name: Install latest
+      run: |
+        brew install pympress --build-from-source --HEAD
+
+    - name: Test help output
+      if: always()
+      run: |
+        pympress --help
+
+    - name: Test starting pympress and quitting from the command line
+      if: always()
+      run: |
+        pympress --quit
+
+    - name: Check the log has been created from the previous step
+      if: always()
+      run: |
+        head ~/Library/Logs/pympress.log
+
+    - name: Run the brew test
+      if: always()
+      run: |
+        brew test pympress
+
+    - name: Debug the brew test
+      if: failure()
+      run: |
+        # NB. don’t use --debug which is interactive
+        brew test --keep-tmp --verbose pympress | tee test.log
+        tempdir=`sed -n '/Temporary files retained at/{n;p}' test.log`
+        tree -a $tempdir
+
+
+  srpm:
+    name: Source RPM
+    needs: checks
+    runs-on: ubuntu-latest
+    outputs:
+      file: ${{ steps.srpm.outputs.file }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -qy python3-rpm
+        python3 -m pip install --upgrade pip
+        python3 -m pip install setuptools wheel twine babel pysrpm rpmlint
+
+    - name: Compile translations
+      run: |
+        python3 setup.py compile_catalog
+
+    - name: Build source rpm
+      id: srpm
+      env:
+        BUILD_DIR: build/rpm
+      run: |
+        mkdir srpm
+        pysrpm --dest-dir=srpm/ --source-only .
+        echo file=`find srpm/ -name '*.src.rpm' -printf '%P\n' -quit` | tee -a $GITHUB_OUTPUT
+
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        tag_name: v${{ needs.checks.outputs.tag }}
+        fail_on_unmatched_files: true
+        files: srpm/${{ steps.srpm.outputs.file }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
+
+    - name: Check built RPM with rpmlint
+      run: rpmlint srpm/${{ steps.name.outputs.file }}
+      continue-on-error: true
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: source-rpm
+        path: srpm/${{ steps.name.outputs.file }}
+
+
+  rpmbuild:
+    name: Build binary RPMs for Source RPM
+    needs: srpm
+    runs-on: ubuntu-latest
+    container: fedora:latest
+
+    steps:
+    - name: Download from GitHub
+      uses: actions/download-artifact@v3
+      with:
+        name: source-rpm
+        path: .
+
+    - name: Install dependencies
+      # NB. querying requires on a source rpm should give us build requires
+      run: dnf install -y rpm-build `rpm -qR "${{ needs.srpm.outputs.file }}" | awk '$1 !~ /^rpmlib(.*)/ {print $1}'`
+
+    - name: Build binary from source spm
+      id: build
+      env:
+        srpm: ${{ needs.srpm.outputs.file }}
+      run: |
+        rpm -q --qf "dest=`rpm --eval %{_rpmfilename}`\n" "$srpm" | tee -a $GITHUB_OUTPUT
+        rpmbuild -D "_rpmdir ${PWD}" -ra "$srpm"
+
+
+  suse-rpmbuild:
+    name: Build Suse RPM end-to-end from spec to binary install
+    needs: checks
+    runs-on: ubuntu-latest
+    container: opensuse/tumbleweed
+
+    steps:
+    - name: Install most basic dependencies
+      run: zypper install -y rpm-build rpmlint osc
+
+    - name: Download tarball
+      uses: actions/download-artifact@v3
+      with:
+        name: tarball
+        path: .
+
+    - name: Get the spec file from OpenBuildService
+      run: |
+        trap 'rm -f ./osc-config' EXIT && echo "$OPENBUILDSERVICE_TOKEN_SECRET" > ./osc-config
+
+        osc --config ./osc-config co -o osc home:cimbali python-pympress
+
+        sed -r '
+          s/^(Version: *)[0-9.]+$/\1${{ needs.checks.outputs.tag }}/
+          s/^(Source0: *pympress-)[0-9.]+(\.tar\.gz)/\1${{ needs.checks.outputs.tag }}\2/
+        ' osc/pympress.spec > pympress.spec
+      env:
+        OPENBUILDSERVICE_TOKEN_SECRET: ${{ secrets.OPENBUILDSERVICE_TOKEN_SECRET }}
+
+    - name: rpmlint specfile
+      continue-on-error: true
+      run: rpmlint pympress.spec
+
+    - name: Make a source rpm
+      id: srpm
+      run: |
+        filename=`rpm -q --qf "%{name}-%{version}-%{release}.src.rpm" --specfile pympress.spec`
+        echo "filename=$filename" | tee -a $GITHUB_OUTPUT
+
+        rpmbuild -D "_sourcedir $PWD" -D "_srcrpmdir $PWD" -bs pympress.spec
+
+        [ -f "$filename" ]  # Check it’s the expected file name
+
+    - name: rpmlint source rpm
+      continue-on-error: true
+      run: rpmlint ${{ steps.srpm.outputs.filename }}
+
+    - name: Install build dependencies
+      # NB. querying requires on a source rpm should give us build requires
+      run: zypper install -y `rpm -qR "${{ steps.srpm.outputs.filename }}"`
+
+    - name: Build binary from source spm
+      id: build
+      run: |
+        filename=`rpm -q --qf "%{arch}/%{name}-%{version}-%{release}.%{arch}.rpm" "$srpm"`
+        echo "filename=$filename" | tee -a $GITHUB_OUTPUT
+
+        rpmbuild -D "_rpmdir ${PWD}" -ra "$srpm"
+      env:
+        srpm: ${{ steps.srpm.outputs.filename }}
+
+    - name: rpmlint rpm
+      continue-on-error: true
+      run: rpmlint ${{ steps.build.outputs.filename }}
+
+    - name: Install with runtime dependencies
+      run: zypper install -y --allow-unsigned-rpm ${{ steps.build.outputs.filename }}
+
+    - name: Run
+      run: env PYMPRESS_HEADLESS_TEST=1 pympress --quit
+
+    - name: Show log
+      run: head ${XDG_CACHE_HOME:-$HOME/.cache}/pympress.log
+
+    - name: Push changes to OpenBuildService
+      run: |
+        trap 'rm -f ./osc-config' EXIT && echo "$OPENBUILDSERVICE_TOKEN_SECRET" > ./osc-config
+
+        cd osc/
+        osc="osc --config ../osc-config"
+
+        $osc rm `sed -n 's/^Source0: *//p' pympress.spec`
+        cp ../pympress-${{ needs.checks.outputs.tag }}.tar.gz ./
+        $osc add pympress-${{ needs.checks.outputs.tag }}.tar.gz
+
+        cp ../pympress.spec ./
+
+        $osc ci -m "Update build to v${{ needs.checks.outputs.tag }}"
+      env:
+        OPENBUILDSERVICE_TOKEN_SECRET: ${{ secrets.OPENBUILDSERVICE_TOKEN_SECRET }}
+
+  windows-build:
+    name: Windows Binaries
+    needs: checks
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    strategy:
+      matrix:
+        include:
+          - { arch: x86_64, msystem: MINGW64 }
+          - { arch: i686, msystem: MINGW32 }
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup msys and dependencies
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          update: true
+          install: >-
+            git
+            zip
+            base-devel
+            mingw-w64-${{ matrix.arch }}-jq
+            mingw-w64-${{ matrix.arch }}-curl
+            mingw-w64-${{ matrix.arch }}-gtk3
+            mingw-w64-${{ matrix.arch }}-cairo
+            mingw-w64-${{ matrix.arch }}-poppler
+            mingw-w64-${{ matrix.arch }}-python3
+            mingw-w64-${{ matrix.arch }}-python3-pip
+            mingw-w64-${{ matrix.arch }}-python3-gobject
+            mingw-w64-${{ matrix.arch }}-python3-cairo
+            mingw-w64-${{ matrix.arch }}-python3-appdirs
+            mingw-w64-${{ matrix.arch }}-python3-setuptools
+            mingw-w64-${{ matrix.arch }}-python3-packaging
+            mingw-w64-${{ matrix.arch }}-python3-cx_Freeze
+            mingw-w64-${{ matrix.arch }}-python3-babel
+            mingw-w64-${{ matrix.arch }}-python3-watchdog
+
+      - name: Install ghostscript "base 35" fonts
+        shell: msys2 {0}
+        run: >
+          curl -L https://sourceforge.net/projects/gs-fonts/files/latest/download
+          | tar xzf - -C /${{ matrix.msystem }}/share/
+
+      - name: Install python-only dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check --upgrade pip
+          python3 -m pip install python-vlc
+
+      - name: Compile translations
+        run: python3 setup.py compile_catalog
+
+      - name: Build binary
+        run: python3 setup.py --freeze build_exe
+
+      - name: Make file basename
+        id: name
+        run: |
+          echo file=pympress-${{ needs.checks.outputs.tag }}-${{ matrix.arch }} | tee -a $GITHUB_OUTPUT
+
+      - name: Build installer
+        run: python3 setup.py --freeze bdist_msi --target-name ${{ steps.name.outputs.file }}.msi --skip-build
+
+      - name: Make portable install
+        run: |
+          cd build
+          mv exe.* pympress
+          cp ../pympress/share/defaults.conf pympress/pympress.conf
+          zip -r ../dist/${{ steps.name.outputs.file }}.zip pympress/
+          cd -
+
+      - name: Install pympress
+        shell: pwsh
+        run: |
+          $installer = gci -path dist\* -include *.msi -name
+          Start-Process msiexec.exe -Wait -NoNewWindow -ArgumentList ('/i "dist\{0}" /qn /norestart /L* installer.log' -f $installer)
+
+          echo "::group::Installer log"
+          get-content installer.log
+          echo "::endgroup::"
+
+      - name: Run pympress
+        shell: pwsh
+        run: |
+          # Check pympress install dir is appended to one of the $PATH variables
+          $dir = (
+            [System.Environment]::GetEnvironmentVariable("Path","Machine").split(";") +
+            [System.Environment]::GetEnvironmentVariable("Path","User").split(";")
+          ) | Select-String 'pympress'
+
+          gci -path $dir -filter *exe
+
+          Start-Process "$dir\pympress.exe" -Wait -NoNewWindow -ArgumentList "--quit"
+
+          echo "::group::Pympress log"
+          get-content "$env:LOCALAPPDATA\pympress.log"
+          echo "::endgroup::"
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-without-release
+          path: |
+            dist/*.zip
+            dist/*.msi
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          tag_name: v${{ needs.checks.outputs.tag }}
+          fail_on_unmatched_files: true
+          files: |
+            dist/*.zip
+            dist/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}

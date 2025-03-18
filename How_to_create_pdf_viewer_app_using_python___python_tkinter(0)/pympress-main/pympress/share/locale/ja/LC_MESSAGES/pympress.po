@@ -1,0 +1,1074 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: pympress\n"
+"Language: ja\n"
+
+#: 
+msgid "(and optionally seconds)"
+msgstr ""
+
+#: 
+msgid "(paused)"
+msgstr "（停止中）"
+
+#: 
+msgid "Adjust alignment of slides in projector screen"
+msgstr "投影スクリーン上でスライドの位置を調整"
+
+#: 
+msgid "All files"
+msgstr "全てのファイル"
+
+#: 
+msgid "Annotations"
+msgstr "注釈"
+
+#: 
+msgid "Big buttons"
+msgstr "大きなボタン"
+
+#: 
+msgid "Cairo can not draw gif"
+msgstr "cairoはgifを描画できません"
+
+#: 
+msgid "Clock"
+msgstr "時刻"
+
+#: 
+msgid "Content and presenter window must not be on the same monitor if you start full screen!"
+msgstr "フルスクリーン表示を開始する前にコンテンツと発表者ウィンドウを同一のモニタに移動する必要があります。"
+
+#: 
+msgid "Content blanked"
+msgstr ""
+
+#: 
+msgid "Content fullscreen"
+msgstr ""
+
+#: 
+msgid "Contributors:"
+msgstr "貢献者:"
+
+#: 
+msgid "Could not disable DPMS screen blanking: got status "
+msgstr ""
+
+#: 
+msgid "Could not enable DPMS screen blanking: got status "
+msgstr ""
+
+#: 
+msgid "Could not find the file \"{}\""
+msgstr "ファイル名 \"{}\"が見つかりません"
+
+#: 
+msgid "Could not set screensaver status: got status "
+msgstr ""
+
+#: 
+msgid "Current slide"
+msgstr "現在のスライド"
+
+#: 
+msgid "ERROR: Gobject Introspections module is missing, make sure Gtk and pygobject are installed on your system."
+msgstr ""
+
+#: 
+msgid "Error loading icon for about window"
+msgstr ""
+
+#: 
+msgid "Error opening the file \"{}\""
+msgstr "ファイル名 \"{}\"が開けません"
+
+#: 
+msgid "For instructions, refer to https://github.com/Cimbali/pympress/blob/master/README.md#dependencies"
+msgstr "使い方についてはこちらをご覧ください: https://github.com/Cimbali/pympress/blob/master/README.md#dependencies"
+
+#: 
+msgid "GtkImage gif player"
+msgstr ""
+
+#: 
+msgid "Highlight"
+msgstr "ハイライト"
+
+#: 
+msgid "If using a virtualenv or anaconda, you can either allow system site packages, or run: pip install pygobject"
+msgstr ""
+
+#: 
+msgid "Invalid log level \"{}\", try one of {}"
+msgstr ""
+
+#: 
+msgid "Invalid time (mm or mm:ss expected), got \"{}\""
+msgstr ""
+
+#: 
+msgid "Media support uses {}."
+msgstr ""
+
+#: 
+msgid "Next slide"
+msgstr "次のスライド"
+
+#: 
+msgid "No action was defined for this link"
+msgstr "このリンクには動作が定義されていません"
+
+#: 
+msgid "Not starting content or presenter window full screen because there is only one monitor"
+msgstr ""
+
+#: 
+msgid "Notes"
+msgstr "ノート"
+
+#: 
+msgid "Notes position"
+msgstr "ノートの位置"
+
+#: 
+msgid "Open _Recent"
+msgstr "最近使ったファイル"
+
+#: 
+msgid "Open..."
+msgstr "開く..."
+
+#: 
+msgid "Options:"
+msgstr "設定:"
+
+#: 
+msgid "Overrides the detection from the file."
+msgstr ""
+
+#: 
+msgid "PDF files"
+msgstr "PDF ファイル"
+
+#: 
+msgid "Pause"
+msgstr "停止"
+
+#: 
+msgid "Play"
+msgstr "再生"
+
+#: 
+msgid "Pointer"
+msgstr "ポインター"
+
+#: 
+msgid "Portable installation"
+msgstr "ポータブル版のインストール"
+
+#: 
+msgid "Presentation timing breakdown"
+msgstr ""
+
+#: 
+msgid "Presenter fullscreen"
+msgstr "発表者フルスクリーン表示"
+
+#: 
+msgid "Pympress Content"
+msgstr ""
+
+#: 
+msgid "Pympress Presenter"
+msgstr "Pympress発表者"
+
+#: 
+msgid "Pympress can not extract attached file"
+msgstr ""
+
+#: 
+msgid "Pympress can not extract embedded media"
+msgstr ""
+
+#: 
+msgid "Pympress can not find file "
+msgstr "Pympressは␣を見つけられません"
+
+#: 
+msgid "Pympress can not interpret annotation of type:"
+msgstr ""
+
+#: 
+msgid "Pympress does not recognize link type \"{}\""
+msgstr "Pympressはリンクタイプ\"{}\"を認識できません"
+
+#: 
+msgid "Pympress does not recognize link type \"{}\" to \"{}\""
+msgstr ""
+
+#: 
+msgid "Pympress does not yet support link type \"{}\""
+msgstr "Pympressは現在のところリンクタイプ\"{}\"に対応していません"
+
+#: 
+msgid "Pympress does not yet support link type \"{}\" to \"{}\""
+msgstr ""
+
+#: 
+msgid "Python version {}"
+msgstr "Pythonバージョン{}"
+
+#: 
+msgid "Resources are loaded from "
+msgstr ""
+
+#: 
+msgid "Set level of verbosity in log file:"
+msgstr ""
+
+#: 
+msgid "Set talk _Time"
+msgstr ""
+
+#: 
+msgid "Set the position of notes on the pdf page (none, left, right, top, or bottom)."
+msgstr "pdfページ上のノートの位置（なし，左，右，上，下）を指定してください"
+
+#: 
+msgid "Slide number"
+msgstr "スライド番号"
+
+#: 
+msgid "Some preferences are saved in "
+msgstr ""
+
+#: 
+msgid "Stop"
+msgstr "停止"
+
+#: 
+msgid "The estimated (intended) talk time in minutes"
+msgstr ""
+
+#: 
+msgid "The log is written to "
+msgstr "ログを␣に書き出しました"
+
+#: 
+msgid "This help"
+msgstr "このヘルプ"
+
+#: 
+msgid "Time elapsed"
+msgstr "経過時間"
+
+#: 
+msgid "Time estimation"
+msgstr "推定時間"
+
+#: 
+msgid "Timing breakdown"
+msgstr ""
+
+#: 
+msgid "Unexpected action in index \"{}\""
+msgstr "参照\"{}\"の予期しない操作"
+
+#: 
+msgid "Unknow widget {} to be fullscreened, aborting."
+msgstr "不明なウィジェット{}がフルスクリーン表示されようとしました。中止します。"
+
+#: 
+msgid "Unsupported OS: can't enable/disable screensaver"
+msgstr "サポートされていないOS: スクリーンセーバーを有効/無効にできません"
+
+#: 
+msgid "Usage: {} [options] <presentation_file>"
+msgstr "使い方: {} [options] <presentation_file>"
+
+#: 
+msgid "Video support using {} is disabled."
+msgstr "{}を使ったビデオサポートは無効化されています。"
+
+#: 
+msgid "_Align content"
+msgstr "コンテンツを整列"
+
+#: 
+msgid "_Annotations"
+msgstr "注釈"
+
+#: 
+msgid "_Blank screen"
+msgstr ""
+
+#: 
+msgid "_Blue"
+msgstr "_青"
+
+#: 
+msgid "_Bottom"
+msgstr "下"
+
+#: 
+msgid "_Disabled"
+msgstr ""
+
+#: 
+msgid "_File"
+msgstr ""
+
+#: 
+msgid "_First"
+msgstr ""
+
+#: 
+msgid "_Fullscreen"
+msgstr "_フルスクリーン"
+
+#: 
+msgid "_Go to..."
+msgstr "_指定ページに移動..."
+
+#: 
+msgid "_Green"
+msgstr "_緑"
+
+#: 
+msgid "_Help"
+msgstr "_ヘルプ"
+
+#: 
+msgid "_Highlight"
+msgstr "_ハイライト"
+
+#: 
+msgid "_Jump to label"
+msgstr "_ラベルへ移動"
+
+#: 
+msgid "_Last"
+msgstr ""
+
+#: 
+msgid "_Left"
+msgstr ""
+
+#: 
+msgid "_Manual"
+msgstr ""
+
+#: 
+msgid "_Navigation"
+msgstr "_ナビゲーション"
+
+#: 
+msgid "_Next"
+msgstr "_次"
+
+#: 
+msgid "_Notes mode"
+msgstr ""
+
+#: 
+msgid "_Pause timer"
+msgstr "_タイマーを一時停止"
+
+#: 
+msgid "_Permanent"
+msgstr ""
+
+#: 
+msgid "_Presentation"
+msgstr "_プレゼンテーション"
+
+#: 
+msgid "_Previous"
+msgstr "_前"
+
+#: 
+msgid "_Red"
+msgstr "_赤"
+
+#: 
+msgid "_Reset timer"
+msgstr "_タイマーをリセット"
+
+#: 
+msgid "_Right"
+msgstr "_右"
+
+#: 
+msgid "_Shortcuts"
+msgstr "_ショートカット"
+
+#: 
+msgid "_Starting Configuration"
+msgstr ""
+
+#: 
+msgid "_Swap screens"
+msgstr ""
+
+#: 
+msgid "_Top"
+msgstr "上"
+
+#: 
+msgid "_Undo zoom"
+msgstr "_拡大を戻す"
+
+#: 
+msgid "_Zoom in"
+msgstr "_拡大"
+
+#: 
+msgid "access denied when trying to access screen saver settings in registry!"
+msgstr "レジストリのスクリーン セーバー設定へのアクセスが拒否されました"
+
+#: 
+msgid "column"
+msgstr ""
+
+#: 
+msgid "duration"
+msgstr "時間"
+
+#: 
+msgid "name"
+msgstr "名前"
+
+#: 
+msgid "no action defined for this link!"
+msgstr "このリンクには動作が定義されていません"
+
+#: 
+msgid "page label"
+msgstr "ページラベル"
+
+#: 
+msgid "pip will then download and compile pygobject, for which you need the Gtk headers (or development package)."
+msgstr ""
+
+#: 
+msgid "pympress is a little PDF reader written in Python using Poppler for PDF rendering and GTK for the GUI.\n"
+""
+msgstr ""
+
+#: 
+msgid "slide"
+msgstr "スライド"
+
+#: 
+msgid "slide #"
+msgstr "スライド#"
+
+#: 
+msgid "time"
+msgstr "時間"
+
+#: 
+msgid "{}, {}, {}, {}, or {}"
+msgstr "{}，{}，{}，{}，または{}"
+
+#: 
+msgid "Additional features"
+msgstr "追加機能"
+
+#: 
+msgid "Blank screen"
+msgstr ""
+
+#: 
+msgid "Cancel goto/jump/highlighting/zooming"
+msgstr ""
+
+#: 
+msgid "Close file"
+msgstr "ファイルを閉じる"
+
+#: 
+msgid "First slide"
+msgstr "最初のスライド"
+
+#: 
+msgid "Go back in slide history"
+msgstr "スライド履歴で一つ前に戻る"
+
+#: 
+msgid "Go forward in slide history"
+msgstr "スライド履歴で一つ進む"
+
+#: 
+msgid "Go to page number"
+msgstr "ページ番号へ移動"
+
+#: 
+msgid "Jump to page label"
+msgstr "ページラベルへ移動"
+
+#: 
+msgid "Last slide"
+msgstr "最後のスライド"
+
+#: 
+msgid "Manage files"
+msgstr "ファイルを管理"
+
+#: 
+msgid "Navigating"
+msgstr ""
+
+#: 
+msgid "Next slide with different label"
+msgstr "別のラベルがついた次のスライド"
+
+#: 
+msgid "Open file"
+msgstr "ファイルを開く"
+
+#: 
+msgid "Play/pause timer"
+msgstr "タイマーを開始/一時停止"
+
+#: 
+msgid "Presentation"
+msgstr "プレゼンテーション"
+
+#: 
+msgid "Previous slide"
+msgstr "前のスライド"
+
+#: 
+msgid "Previous slide with different label"
+msgstr "別のラベルがついた前のスライド"
+
+#: 
+msgid "Quit"
+msgstr "終了"
+
+#: 
+msgid "Reset timer"
+msgstr "タイマーをリセット"
+
+#: 
+msgid "Set estimated talk time"
+msgstr ""
+
+#: 
+msgid "Swap windows"
+msgstr ""
+
+#: 
+msgid "Timers"
+msgstr "タイマー"
+
+#: 
+msgid "Toggle annotations"
+msgstr "注釈の切り替え"
+
+#: 
+msgid "Toggle fullscreen"
+msgstr "フルスクリーンの切り替え"
+
+#: 
+msgid "Toggle highlighting"
+msgstr "ハイライトの切り替え"
+
+#: 
+msgid "Toggle laserpointer"
+msgstr "レーザーポインターの切り替え"
+
+#: 
+msgid "Toggle notes mode"
+msgstr ""
+
+#: 
+msgid "Undo highlight stroke"
+msgstr ""
+
+#: 
+msgid "Unzoom"
+msgstr "縮小"
+
+#: 
+msgid "Validate goto/jump destination"
+msgstr ""
+
+#: 
+msgid "Windows"
+msgstr "ウィンドウ"
+
+#: 
+msgid "Zoom"
+msgstr "拡大"
+
+#: 
+msgid "Unrecognized named destination: "
+msgstr ""
+
+#: 
+msgid "Unsupported link clicked. "
+msgstr ""
+
+#: 
+msgid "Fullscreen Presentation running"
+msgstr ""
+
+#: 
+msgid "Caused by "
+msgstr ""
+
+#: 
+msgid "Building FileWatcher"
+msgstr ""
+
+#: 
+msgid "Missing dependency: python \"{}\" package"
+msgstr ""
+
+#: 
+msgid "Monitoring of changes to reload files automatically is not available"
+msgstr ""
+
+#: 
+msgid "ERROR: Gobject Introspections and/or pycairo module is missing, make sure Gtk, pygobject and pycairo are installed on your system."
+msgstr ""
+
+#: 
+msgid "If using a virtualenv or anaconda, you can either allow system site packages, or run: pip install pygobject pycairo"
+msgstr ""
+
+#: 
+msgid "pip will then download and compile pygobject, for which you need the Gtk and cairo headers (or development packages)."
+msgstr ""
+
+#: 
+msgid "(none, left, right, top, or bottom)."
+msgstr "（なし，左，右，上，下）"
+
+#: 
+msgid "If using a virtualenv or anaconda, you can also try allowing system site packages."
+msgstr ""
+
+#: 
+msgid "Set the position of notes on the pdf page"
+msgstr "pdfページ上のノートの位置を設定してください"
+
+#: 
+msgid "Try your operating system’s package manager, or try running: pip install pygobject pycairo"
+msgstr ""
+
+#: 
+msgid "pip will then download and compile pygobject and pycairo, for which you need the Gtk and cairo headers (or development packages)."
+msgstr ""
+
+#: 
+msgid "(none, left, right, top, bottom, or after)."
+msgstr "（なし，左，右，上，下，後）"
+
+#: 
+msgid "_After slide pages"
+msgstr ""
+
+#: 
+msgid "_Bottom half of slide"
+msgstr "_スライド下半分"
+
+#: 
+msgid "_Left half of slide"
+msgstr "_スライド左半分"
+
+#: 
+msgid "_Right half of slide"
+msgstr "_スライド右半分"
+
+#: 
+msgid "_Top half of slide"
+msgstr "_スライド上半分"
+
+#: 
+msgid "Error parsing option from config file {}.{} \"{}\" to bool"
+msgstr ""
+
+#: 
+msgid "Error parsing option from config file {}.{} \"{}\" to float"
+msgstr ""
+
+#: 
+msgid "Error parsing option from config file {}.{} \"{}\" to int"
+msgstr ""
+
+#: 
+msgid "Blank/unblank content screen"
+msgstr ""
+
+#: 
+msgid "Close opened pympress instance"
+msgstr ""
+
+#: 
+msgid "Print version and exit"
+msgstr ""
+
+#: 
+msgid "Reset talk timer"
+msgstr "講演タイマーをリセット"
+
+#: 
+msgid "Toggle pause of talk timer"
+msgstr "講演タイマーを一時停止/再開"
+
+#: 
+msgid "GdkPixbuf gif player"
+msgstr ""
+
+#: 
+msgid "Media support loaded: "
+msgstr ""
+
+#: 
+msgid "Media support using {} is disabled."
+msgstr ""
+
+#: 
+msgid "Media support: "
+msgstr ""
+
+#: 
+msgid "Align _content"
+msgstr ""
+
+#: 
+msgid "Clear and restore per page label"
+msgstr ""
+
+#: 
+msgid "Clear and restore per page number"
+msgstr ""
+
+#: 
+msgid "Clear on page change"
+msgstr ""
+
+#: 
+msgid "Highlight mode"
+msgstr "ハイライトモード"
+
+#: 
+msgid "Never clear (manually only)"
+msgstr "消去しない（手動のみ）"
+
+#: 
+msgid "Tools below slide"
+msgstr ""
+
+#: 
+msgid "Tools next to slide"
+msgstr ""
+
+#: 
+msgid "_Close"
+msgstr "_閉じる"
+
+#: 
+msgid "_Open"
+msgstr "_開く"
+
+#: 
+msgid "_Pointer"
+msgstr "_ポインター"
+
+#: 
+msgid "_Quit"
+msgstr "_終了"
+
+#: 
+msgid "10th next slide"
+msgstr "10枚後のスライド"
+
+#: 
+msgid "11th next slide"
+msgstr "11枚後のスライド"
+
+#: 
+msgid "12th next slide"
+msgstr "12枚後のスライド"
+
+#: 
+msgid "13th next slide"
+msgstr "13枚後のスライド"
+
+#: 
+msgid "14th next slide"
+msgstr "14枚後のスライド"
+
+#: 
+msgid "15th next slide"
+msgstr "15枚後のスライド"
+
+#: 
+msgid "16th next slide"
+msgstr "16枚後のスライド"
+
+#: 
+msgid "2nd next slide"
+msgstr "2枚後のスライド"
+
+#: 
+msgid "3rd next slide"
+msgstr "3枚後のスライド"
+
+#: 
+msgid "4th next slide"
+msgstr "4枚後のスライド"
+
+#: 
+msgid "5th next slide"
+msgstr "5枚後のスライド"
+
+#: 
+msgid "6th next slide"
+msgstr "6枚後のスライド"
+
+#: 
+msgid "7th next slide"
+msgstr "7枚後のスライド"
+
+#: 
+msgid "8th next slide"
+msgstr "8枚後のスライド"
+
+#: 
+msgid "9th next slide"
+msgstr "9枚後のスライド"
+
+#: 
+msgid "annotations (hideable)"
+msgstr "注釈（非表示可）"
+
+#: 
+msgid "current slide"
+msgstr "現在のスライド"
+
+#: 
+msgid "horizontal"
+msgstr "水平"
+
+#: 
+msgid "next slide(s)"
+msgstr "次のスライド"
+
+#: 
+msgid "next slides count"
+msgstr "次のスライド数"
+
+#: 
+msgid "orientation"
+msgstr "方向"
+
+#: 
+msgid "resizeable"
+msgstr "サイズ変更可"
+
+#: 
+msgid "vertical"
+msgstr "垂直"
+
+#: 
+msgid "widget"
+msgstr "ウィジェット"
+
+#: 
+msgid "_Discard"
+msgstr "_破棄"
+
+#: 
+msgid "annotations"
+msgstr "注釈"
+
+#: 
+msgid "_Automatic navigation"
+msgstr "_自動ナビゲーション"
+
+#: 
+msgid "Note pages"
+msgstr "ノートページ"
+
+#: 
+msgid "Plain"
+msgstr ""
+
+#: 
+msgid "notes"
+msgstr "ノート"
+
+#: 
+msgid "Highlighting"
+msgstr "ハイライトする"
+
+#: 
+msgid "Layout to draw on the current slide"
+msgstr "現在のスライドに描画するレイアウト"
+
+#: 
+msgid "highlighting"
+msgstr "ハイライトする"
+
+#: 
+msgid "Exit highlight on page change"
+msgstr "ページ送り時にハイライトを終了"
+
+#: 
+msgid "_Every second page"
+msgstr ""
+
+#: 
+msgid "(none, left, right, top, bottom, after, odd, or prefix)."
+msgstr ""
+
+#: 
+msgid "Unexpected missing page to draw for widget \"{}\""
+msgstr ""
+
+#: 
+msgid "_Prefixed labels"
+msgstr ""
+
+#: 
+msgid "Redo highlight stroke"
+msgstr ""
+
+#: 
+msgid "_About"
+msgstr ""
+
+#: 
+msgid "Auto"
+msgstr "自動"
+
+#: 
+msgid "Choose parameters for automatically playing slides"
+msgstr ""
+
+#: 
+msgid "Edit layout"
+msgstr "レイアウトを編集"
+
+#: 
+msgid "Gtk.Application.inhibit failed preventing screensaver, trying hard disabling"
+msgstr ""
+
+#: 
+msgid "Layout for beamer notes on second screen (no current slide preview in notes)"
+msgstr ""
+
+#: 
+msgid "Layout for libreoffice notes on separate pages (with current slide preview in notes)"
+msgstr ""
+
+#: 
+msgid "Loop"
+msgstr "ループ"
+
+#: 
+msgid "Overwrite"
+msgstr "上書き"
+
+#: 
+msgid "Overwrite changes instead of reloading?"
+msgstr "再読込みの代わりに変更を上書きしますか？"
+
+#: 
+msgid "Plain layout, without note slides"
+msgstr ""
+
+#: 
+msgid "Reload"
+msgstr "再読込み"
+
+#: 
+msgid "Save as..."
+msgstr "名前を付けて保存..."
+
+#: 
+msgid "Save changes before closing?"
+msgstr "閉じる前に変更を保存しますか？"
+
+#: 
+msgid "Save file"
+msgstr "ファイルを保存"
+
+#: 
+msgid "Save file as"
+msgstr "名前を付けてファイルを保存"
+
+#: 
+msgid "Saving changes will overwrite the changed file!"
+msgstr "変更を保存するとファイルが上書きされます！"
+
+#: 
+msgid "Should not require hard enable/disable screensaver on Linux"
+msgstr ""
+
+#: 
+msgid "The open file was modified outside of pympress but you have made unsaved changes."
+msgstr ""
+
+#: 
+msgid "Time per slide (s):"
+msgstr "スライドあたりの時間"
+
+#: 
+msgid "Unknown widget \"{}\" to draw"
+msgstr ""
+
+#: 
+msgid "Unsaved changes"
+msgstr "保存されていない変更"
+
+#: 
+msgid "Unsaved changes will be lost"
+msgstr "保存されていない変更は破棄されます"
+
+#: 
+msgid "Unsaved changes will be lost."
+msgstr "保存されていない変更は破棄されます。"
+
+#: 
+msgid "_Save"
+msgstr "_保存"
+
+#: 
+msgid "_Save as"
+msgstr "_名前を付けて保存"
+
+#: 
+msgid "box"
+msgstr "ボックス"
+
+#: 
+msgid "Failed loading pixbuf for pointer \"{}\" from: {}"
+msgstr ""
+
+#: 
+msgid "Highlighting with notes"
+msgstr "ノートをハイライト"
+
+#: 
+msgid "Layout to draw on the current slide with notes displayed"
+msgstr ""
+
+#: 
+msgid "_Deck overview"
+msgstr "デッキの概要"
+
+#: 
+msgid "Show deck overview"
+msgstr "デッキの概要を見る"
+

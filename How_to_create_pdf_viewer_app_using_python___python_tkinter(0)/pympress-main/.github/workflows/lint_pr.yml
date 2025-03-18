@@ -1,0 +1,46 @@
+name: Linting on PR, with stricter rules on new code
+
+on: [pull_request]
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7, 3.8, 3.9, '3.10', '3.11']
+
+    steps:
+    - name: Checkout PR merge commit
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8 flake8-docstrings
+
+    - name: Fetch pull request target branch
+      run: git fetch origin ${{ github.base_ref }}
+
+    - name: Lint with standard ignores on modified files
+      shell: bash
+      run: |
+        flake8 . --count --show-source --statistics | sed -r 'h;s/^(\S+):([0-9]+):([0-9]+): /::error file=\1,line=\2,col=\3::/p;g'
+
+    - name: Lint changes with flake8
+      shell: bash
+      # Reduced list of ignores, applied on the changed lines only
+      run: |
+        git diff -z --name-only FETCH_HEAD -- '**.py' | xargs -r0 flake8 --exit-zero --ignore=D107,D200,D210,D413,E251,E302,E303,W504 > errors
+        git diff FETCH_HEAD -U0 -- '**.py' | sed -rn -e '/^\+\+\+ /{s,^\+\+\+ ./,,;h}' -e '/^@@ /{G;s/^@@ -[0-9,]+ \+([0-9,]+) @@.*\n(.*)/\2,\1/p}' | (
+           while IFS=, read file start lines; do for (( l = start ; l < $start + ${lines:-1}; ++l )); do echo "^$file:$l:"; done; done
+        ) > changed_lines
+        # Invert return value, i.e. error iff matches
+        ! grep -f changed_lines errors | sed -r 'h;s/^(\S+):([0-9]+):([0-9]+): /::error file=\1,line=\2,col=\3::/p;g'
